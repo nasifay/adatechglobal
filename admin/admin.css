@@ -1,0 +1,13 @@
+body { font-family: 'Open Sans', Arial, sans-serif; background: #f8f9fa; margin: 0; }
+.login-container, .dashboard-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
+h1, h2 { color: #0d6efd; }
+input[type=text], input[type=password] { width: 100%; padding: 10px; margin: 8px 0 16px 0; border: 1px solid #ccc; border-radius: 4px; }
+button { background: #0d6efd; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; }
+button:hover { background: #0b5ed7; }
+.error { color: #d9534f; margin-bottom: 12px; }
+ul { list-style: none; padding: 0; }
+ul li { margin: 12px 0; }
+a { color: #0d6efd; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.dashboard-container ul { margin-top: 24px; }
+.dashboard-container a { font-weight: 500; }
