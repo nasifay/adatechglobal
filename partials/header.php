@@ -9,18 +9,18 @@
   <title>Adatech Solutions | Software, Embedded Systems &amp; IoT — Ethiopia</title>
   <meta content="We deliver innovative software, embedded systems, and digital solutions that empower businesses, communities, and innovators to thrive in the digital era." name="description">
   <meta content="Adatech, Ada Technology, software development Ethiopia, IoT Ethiopia, smart devices, embedded systems, website design Ethiopia, mobile apps" name="keywords">
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?php echo asset('assets/img/favicon.png'); ?>" rel="icon">
+  <link href="<?php echo asset('assets/img/apple-touch-icon.png'); ?>" rel="apple-touch-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="<?php echo asset('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+  <link href="<?php echo asset('assets/vendor/bootstrap-icons/bootstrap-icons.css'); ?>" rel="stylesheet">
+  <link href="<?php echo asset('assets/vendor/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet">
+  <link href="<?php echo asset('assets/vendor/aos/aos.css'); ?>" rel="stylesheet">
+  <link href="<?php echo asset('assets/vendor/glightbox/css/glightbox.min.css'); ?>" rel="stylesheet">
+  <link href="<?php echo asset('assets/vendor/swiper/swiper-bundle.min.css'); ?>" rel="stylesheet">
+  <link href="<?php echo asset('assets/css/main.css'); ?>" rel="stylesheet">
 </head>
 <body>
 <header id="header" class="header d-flex align-items-center">

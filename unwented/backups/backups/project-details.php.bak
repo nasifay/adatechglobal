@@ -1,0 +1,83 @@
+<?php
+// project-details.php - show a single project by id
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/helpers.php';
+include __DIR__ . '/partials/header.php';
+
+$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+if (!$id) {
+    header('Location: projects.php');
+    exit;
+}
+
+$stmt = $pdo->prepare('SELECT * FROM projects WHERE id = ?');
+$stmt->execute([$id]);
+$project = $stmt->fetch();
+if (!$project) {
+    echo '<div class="container"><p>Project not found.</p></div>';
+    include __DIR__ . '/partials/footer.php';
+    exit;
+}
+?>
+
+  <main id="main">
+
+    <section id="project-details" class="project-details">
+      <div class="container" data-aos="fade-up">
+        <div class="portfolio-details-container">
+          <div class="portfolio-details-img">
+            <img src="<?php echo esc($project['image'] ?: 'assets/img/projects/web-platform.jpg'); ?>" class="img-fluid" alt="">
+          </div>
+
+          <div class="portfolio-description">
+            <h2><?php echo esc($project['title']); ?></h2>
+            <p><?php echo nl2br(esc($project['description'])); ?></p>
+          </div>
+
+        </div>
+
+        <div class="row justify-content-between gy-4 mt-4">
+          <div class="col-lg-8">
+            <!-- Additional content could go here -->
+          </div>
+          <div class="col-lg-3">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Project date</strong> <span><?php echo esc($project['updated_at']); ?></span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+<?php include __DIR__ . '/partials/footer.php';
+
+?>
+<?php // project-details.php - static fallback ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Details — Adatech Solutions</title>
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body>
+  <header id="header"><div class="container-fluid container-xl d-flex align-items-center justify-content-between"><a href="index.php" class="logo d-flex align-items-center"><h1>Adatech Solutions</h1></a><nav id="navbar" class="navbar"><ul><li><a href="index.php">Home</a></li><li><a href="about.php">About us</a></li><li><a href="services.php">Services</a></li><li><a href="projects.php">Projects</a></li><li><a href="team.php">Team</a></li><li><a href="contact.php">Contact</a></li></ul></nav></div></header>
+
+  <main id="main">
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');"><div class="container position-relative d-flex flex-column align-items-center" data-aos="fade"><h2>Sample Project</h2><ol><li><a href="index.php">Home</a></li><li><a href="projects.php">Projects</a></li><li>Sample Project</li></ol></div></div>
+
+    <section class="project-details"><div class="container"><h3>Sample Project</h3><img src="assets/img/projects/web-platform.jpg" class="img-fluid" alt="Sample Project"><p>This project showcases a web platform built for data analytics and reporting.</p></div></section>
+  </main>
+
+  <footer class="footer"><div class="container"><div class="copyright">&copy; <?php echo date('Y'); ?> Adatech Solutions</div></div></footer>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

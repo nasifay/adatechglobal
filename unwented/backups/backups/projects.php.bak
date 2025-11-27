@@ -1,0 +1,49 @@
+<?php
+// projects.php - dynamic projects listing
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/helpers.php';
+include __DIR__ . '/partials/header.php';
+
+$stmt = $pdo->query('SELECT * FROM projects ORDER BY updated_at DESC');
+$projects = $stmt->fetchAll();
+?>
+
+  <main id="main">
+
+    <!-- ======= Our Projects Section ======= -->
+    <section id="projects" class="projects">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Our Projects</h2>
+          <p>Explore the innovative solutions we have built across IoT, Embedded Systems, Web, Mobile, and smart hardware products.</p>
+        </div>
+
+        <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+          <?php if (empty($projects)): ?>
+            <div class="col-12">No projects found yet.</div>
+          <?php else: ?>
+            <?php foreach ($projects as $p): ?>
+              <div class="col-lg-4 col-md-6 portfolio-item">
+                <div class="portfolio-content h-100">
+                  <img src="<?php echo esc($p['image'] ?: 'assets/img/projects/web-platform.jpg'); ?>" class="img-fluid" alt="<?php echo esc($p['title']); ?>">
+                  <div class="portfolio-info">
+                    <h4><?php echo esc($p['title']); ?></h4>
+                    <p><?php echo esc(substr($p['description'], 0, 150)); ?></p>
+                    <a href="<?php echo esc($p['image'] ?: '#'); ?>" title="<?php echo esc($p['title']); ?>" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                    <a href="project-details.php?id=<?php echo (int)$p['id']; ?>" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+
+      </div>
+    </section><!-- End Our Projects Section -->
+
+  </main><!-- End #main -->
+
+<?php include __DIR__ . '/partials/footer.php';
+
+?>
