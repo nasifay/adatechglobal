@@ -137,7 +137,7 @@ $projImages = $projImagesStmt->fetchAll();
                     <td><?php echo (int)$p['id']; ?></td>
                     <td><?php echo esc($p['title']); ?></td>
                     <td><?php echo esc(mb_strimwidth($p['description'], 0, 80, '...')); ?></td>
-                    <td><?php if ($p['image']): ?><img src="/assets/img/projects/<?php echo esc($p['image']); ?>" style="height:40px"><?php endif; ?></td>
+                    <td><?php if ($p['image']): ?><img src="<?php echo esc(asset('assets/img/projects/' . $p['image'])); ?>" style="height:40px"><?php endif; ?></td>
                     <td>
                         <a href="manage_projects.php?action=edit&id=<?php echo (int)$p['id']; ?>">Edit</a>
                         <form action="manage_projects.php" method="post" style="display:inline" onsubmit="return confirm('Delete project?');">
@@ -160,7 +160,7 @@ $projImages = $projImagesStmt->fetchAll();
                 <input type="hidden" name="id" value="<?php echo (int)$project['id']; ?>">
                 <div><label>Title<br><input type="text" name="title" value="<?php echo esc($project['title']); ?>" required></label></div>
                 <div><label>Description<br><textarea name="description" rows="4"><?php echo esc($project['description']); ?></textarea></label></div>
-                <div>Current Image: <?php if ($project['image']): ?><img src="/assets/img/projects/<?php echo esc($project['image']); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
+                <div>Current Image: <?php if ($project['image']): ?><img src="<?php echo esc(asset('assets/img/projects/' . $project['image'])); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
                 <div><label>Replace Image<br><input type="file" name="image" accept="image/*"></label></div>
                 <div><label>Or choose existing image<br>
                     <select name="existing_image">

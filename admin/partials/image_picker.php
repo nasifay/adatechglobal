@@ -18,7 +18,7 @@ $images = $pdo->query('SELECT * FROM images ORDER BY uploaded_at DESC')->fetchAl
       <div class="modal-body">
         <div class="image-picker-grid">
           <?php foreach ($images as $img): 
-            $url = '/assets/img/' . $img['type'] . '/' . $img['filename'];
+            $url = asset('assets/img/' . $img['type'] . '/' . $img['filename']);
           ?>
             <div class="image-picker-item" data-file="<?php echo esc($img['type'] . '/' . $img['filename']); ?>" data-url="<?php echo esc($url); ?>">
               <img src="<?php echo esc($url); ?>" alt="<?php echo esc($img['filename']); ?>">

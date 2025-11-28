@@ -167,7 +167,7 @@ $teamImages = $teamImagesStmt->fetchAll();
                 <div><label>Name<br><input type="text" name="name" value="<?php echo esc($member['name']); ?>" required></label></div>
                 <div><label>Role<br><input type="text" name="role" value="<?php echo esc($member['role']); ?>"></label></div>
                 <div><label>Bio<br><textarea name="bio" rows="4"><?php echo esc($member['bio']); ?></textarea></label></div>
-                <div>Current Image: <?php if ($member['image']): ?><img src="/assets/img/team/<?php echo esc($member['image']); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
+                <div>Current Image: <?php if ($member['image']): ?><img src="<?php echo esc(asset('assets/img/team/' . $member['image'])); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
                 <div><label>Replace Image<br><input type="file" name="image" accept="image/*"></label></div>
                 <div><label>Or choose existing image<br>
                     <select name="existing_image">

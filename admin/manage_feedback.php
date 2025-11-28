@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/../includes/auth.php';
 if (session_status() !== PHP_SESSION_ACTIVE) @session_start();
 if (empty($_SESSION['admin_logged_in'])) {
@@ -119,8 +120,12 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
           $imgRows = $db->query("SELECT id, type, filename, path FROM images ORDER BY uploaded_at DESC LIMIT 200")->fetchAll(PDO::FETCH_ASSOC);
           foreach ($imgRows as $ir) {
             $val = htmlspecialchars($ir['filename']);
-            $p = !empty($ir['path']) ? $ir['path'] : '/assets/img/' . $ir['type'] . '/' . $ir['filename'];
-            echo '<option data-path="' . htmlspecialchars($p) . '" value="' . $val . '">' . $val . ' (' . htmlspecialchars($ir['type']) . ')</option>';
+            if (!empty($ir['path'])) {
+              $p = esc(asset(ltrim($ir['path'], '/\\')));
+            } else {
+              $p = esc(asset('assets/img/' . $ir['type'] . '/' . $ir['filename']));
+            }
+            echo '<option data-path="' . htmlspecialchars($p, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" value="' . $val . '">' . $val . ' (' . htmlspecialchars($ir['type']) . ')</option>';
           }
         ?>
       </select>
@@ -166,7 +171,11 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php
               foreach ($imgRows as $ir) {
                 $val = htmlspecialchars($ir['filename']);
-                $p = !empty($ir['path']) ? $ir['path'] : '/assets/img/' . $ir['type'] . '/' . $ir['filename'];
+                if (!empty($ir['path'])) {
+                  $p = esc(asset(ltrim($ir['path'], '/\\')));
+                } else {
+                  $p = esc(asset('assets/img/' . $ir['type'] . '/' . $ir['filename']));
+                }
                 $sel = ($it['image'] && $it['image'] === $ir['filename']) ? ' selected' : '';
                 echo '<option data-path="' . htmlspecialchars($p) . '" value="' . $val . '"' . $sel . '>' . $val . ' (' . htmlspecialchars($ir['type']) . ')</option>';
               }

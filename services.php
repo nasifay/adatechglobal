@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,8 +11,8 @@
   <meta content="Adatech Solutions services, software development, IoT, embedded, cloud, consulting" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +48,7 @@
 
       <a href="index.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        
         <h1>Adatech<span>.</span></h1>
       </a>
 
@@ -72,12 +73,13 @@
     <?php
     require_once __DIR__ . '/includes/db.php';
     require_once __DIR__ . '/includes/helpers.php';
+    require_once __DIR__ . '/includes/site_images.php';
     $svcStmt = $pdo->query('SELECT * FROM services ORDER BY id ASC');
     $servicesList = $svcStmt->fetchAll();
     ?>
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+    <div class="breadcrumbs d-flex align-items-center" style="<?php echo site_bg('hero_bg'); ?>">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2>Services</h2>
@@ -99,7 +101,7 @@
                 <div class="service-item position-relative">
                   <div class="icon">
                     <?php if (!empty($s['icon'])): ?>
-                      <img src="/<?php echo esc($s['icon']); ?>" style="height:36px" alt="">
+                      <img src="<?php echo asset($s['icon']); ?>" style="height:36px" alt="">
                     <?php else: ?>
                       <i class="bi bi-gear"></i>
                     <?php endif; ?>

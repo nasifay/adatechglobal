@@ -2,10 +2,13 @@
 require __DIR__ . '/includes/config.php';
 require __DIR__ . '/includes/db.php';
 require __DIR__ . '/includes/helpers.php';
+require __DIR__ . '/includes/site_images.php';
 
 $stmt = $pdo->query("SELECT * FROM team ORDER BY id ASC");
 $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<?php require_once __DIR__ . '/includes/helpers.php'; ?>
+<?php require_once __DIR__ . '/includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +21,8 @@ $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +58,7 @@ $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       <a href="index.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        
         <h1>Adatech<span>.</span></h1>
       </a>
 
@@ -78,7 +81,7 @@ $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+    <div class="breadcrumbs d-flex align-items-center" style="<?php echo site_bg('hero_bg'); ?>">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2>Team</h2>
@@ -99,18 +102,17 @@ $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
               // Determine correct image URL. Stored value may be filename only, or a relative path.
               $stored = $m['image'] ?? '';
               if ($stored) {
-                // If stored value looks like a path (contains a slash) or starts with http, use as-is
-                if (strpos($stored, '/') !== false || preg_match('#^https?://#i', $stored)) {
-                  $rel = ltrim($stored, '/\\');
+                if (preg_match('#^https?://#i', $stored)) {
+                  $img = $stored;
+                } elseif (strpos($stored, '/') !== false) {
+                  $img = asset(ltrim($stored, '/\\'));
                 } else {
-                  // filename only — assume assets/img/team/
-                  $rel = 'assets/img/team/' . $stored;
+                  $img = asset('assets/img/team/' . $stored);
                 }
               } else {
-                $rel = 'assets/img/team/default.jpg';
+                // Use central site default
+                $img = site_image('team_default');
               }
-              $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-              $img = $base . '/' . $rel;
               $name = $m['name'] ?? 'Unnamed';
               $role = $m['role'] ?? '';
               $bio = $m['bio'] ?? '';

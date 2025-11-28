@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,8 +11,8 @@
   <meta content="Adatech, Ada Technology, software development Ethiopia, IoT Ethiopia, smart devices, embedded systems, website design Ethiopia, mobile apps" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +48,7 @@
 
       <a href="index.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        
         <h1>Adatech<span>.</span></h1>
       </a>
 
@@ -74,6 +75,7 @@
     // Load landing content from DB if available
     require_once __DIR__ . '/includes/db.php';
     require_once __DIR__ . '/includes/helpers.php';
+    require_once __DIR__ . '/includes/site_images.php';
     $landingStmt = $pdo->prepare('SELECT title, body FROM content WHERE type = ? LIMIT 1');
     $landingStmt->execute(['landing']);
     $landing = $landingStmt->fetch(PDO::FETCH_ASSOC);
@@ -97,12 +99,12 @@
 
     <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
 
-      <div class="carousel-item active" style="background-image: url(assets/img/hero-carousel/hero-carousel-1.jpg)">
+      <div class="carousel-item active" style="background-image: url('<?php echo site_image('hero_carousel_1'); ?>')">
       </div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-2.jpg)"></div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-3.jpg)"></div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-4.jpg)"></div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-5.jpg)"></div>
+      <div class="carousel-item" style="background-image: url('<?php echo site_image('hero_carousel_2'); ?>')"></div>
+      <div class="carousel-item" style="background-image: url('<?php echo site_image('hero_carousel_3'); ?>')"></div>
+      <div class="carousel-item" style="background-image: url('<?php echo site_image('hero_carousel_4'); ?>')"></div>
+      <div class="carousel-item" style="background-image: url('<?php echo site_image('hero_carousel_5'); ?>')"></div>
 
       <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
@@ -185,7 +187,7 @@
             <div class="card-item">
               <div class="row">
                 <div class="col-xl-5">
-                  <div class="card-bg" style="background-image: url(assets/img/projects/construction-1.jpg);"></div>
+                  <div class="card-bg" style="background-image: url('<?php echo site_image('project_card_1'); ?>');"></div>
                 </div>
                 <div class="col-xl-7 d-flex align-items-center">
                   <div class="card-body">
@@ -201,7 +203,7 @@
             <div class="card-item">
               <div class="row">
                 <div class="col-xl-5">
-                  <div class="card-bg" style="background-image: url(assets/img/projects/design-1.jpg);"></div>
+                  <div class="card-bg" style="background-image: url('<?php echo site_image('project_card_1'); ?>');"></div>
                 </div>
                 <div class="col-xl-7 d-flex align-items-center">
                   <div class="card-body">
@@ -217,7 +219,7 @@
             <div class="card-item">
               <div class="row">
                 <div class="col-xl-5">
-                  <div class="card-bg" style="background-image: url(assets/img/projects/construction-2.jpg);"></div>
+                  <div class="card-bg" style="background-image: url('<?php echo site_image('project_card_1'); ?>');"></div>
                 </div>
                 <div class="col-xl-7 d-flex align-items-center">
                   <div class="card-body">
@@ -233,7 +235,7 @@
             <div class="card-item">
               <div class="row">
                 <div class="col-xl-5">
-                  <div class="card-bg" style="background-image: url(assets/img/projects/design-2.jpg);"></div>
+                  <div class="card-bg" style="background-image: url('<?php echo site_image('project_card_1'); ?>');"></div>
                 </div>
                 <div class="col-xl-7 d-flex align-items-center">
                   <div class="card-body">
@@ -297,7 +299,7 @@
       <div class="container" data-aos="fade-up">
 
         <div class="row justify-content-around gy-4">
-          <div class="col-lg-6 img-bg" style="background-image: url(assets/img/alt-services.jpg);" data-aos="zoom-in" data-aos-delay="100"></div>
+          <div class="col-lg-6 img-bg" style="background-image: url('<?php echo site_image('service_main'); ?>');" data-aos="zoom-in" data-aos-delay="100"></div>
 
           <div class="col-lg-5 d-flex flex-column justify-content-center">
             <h3>Innovation Driven by Ethiopian Ingenuity</h3>
@@ -381,7 +383,7 @@
                 </ul>
               </div>
               <div class="col-lg-6 text-center">
-                <img src="assets/img/features-1.jpg" alt="" class="img-fluid">
+                <img src="<?php echo site_image('innovation_puzzle'); ?>" alt="" class="img-fluid">
               </div>
             </div>
           </div>
@@ -399,7 +401,7 @@
                 </ul>
               </div>
               <div class="col-lg-6 text-center">
-                <img src="assets/img/features-2.jpg" alt="" class="img-fluid">
+                <img src="<?php echo site_image('efficiency_puzzle'); ?>" alt="" class="img-fluid">
               </div>
             </div>
           </div>
@@ -417,7 +419,7 @@
                 <p class="fst-italic">We connect devices, data, and intelligence to create seamless automated experiences.</p>
               </div>
               <div class="col-lg-6 text-center">
-                <img src="assets/img/features-3.jpg" alt="" class="img-fluid">
+                <img src="<?php echo site_image('screens_computers'); ?>" alt="" class="img-fluid">
               </div>
             </div>
           </div>
@@ -435,7 +437,7 @@
                 </ul>
               </div>
               <div class="col-lg-6 text-center">
-                <img src="assets/img/features-4.jpg" alt="" class="img-fluid">
+                <img src="<?php echo site_image('iot_theme'); ?>" alt="" class="img-fluid">
               </div>
             </div>
           </div>
@@ -471,11 +473,11 @@
             <!-- IoT Project -->
             <div class="col-lg-4 col-md-6 portfolio-item filter-iot">
               <div class="portfolio-content h-100">
-                <img src="assets/img/projects/iot-suite.jpg" class="img-fluid" alt="IoT Sensor Suite">
+                <img src="<?php echo site_image('project_card_1'); ?>" class="img-fluid" alt="IoT Sensor Suite">
                 <div class="portfolio-info">
                   <h4>IoT Sensor Suite</h4>
                   <p>Real-time monitoring system for smart environments.</p>
-                  <a href="assets/img/projects/iot-suite.jpg" title="IoT Sensor Suite"
+                  <a href="<?php echo site_image('project_card_1'); ?>" title="IoT Sensor Suite"
                     data-gallery="portfolio-gallery-iot" class="glightbox preview-link"><i
                       class="bi bi-zoom-in"></i></a>
                   <a href="project-details-iot.php" title="More Details" class="details-link"><i
@@ -487,11 +489,11 @@
             <!-- Embedded Controller -->
             <div class="col-lg-4 col-md-6 portfolio-item filter-embedded">
               <div class="portfolio-content h-100">
-                <img src="assets/img/projects/embedded-controller.jpg" class="img-fluid" alt="Embedded Controller">
+                <img src="<?php echo site_image('project_card_1'); ?>" class="img-fluid" alt="Embedded Controller">
                 <div class="portfolio-info">
                   <h4>Embedded Controller</h4>
                   <p>Custom microcontroller firmware and board integration.</p>
-                  <a href="assets/img/projects/embedded-controller.jpg" title="Embedded Controller"
+                  <a href="<?php echo site_image('project_card_1'); ?>" title="Embedded Controller"
                     data-gallery="portfolio-gallery-embedded" class="glightbox preview-link"><i
                       class="bi bi-zoom-in"></i></a>
                   <a href="project-details-embedded.php" title="More Details" class="details-link"><i
@@ -503,11 +505,11 @@
             <!-- Web Platform -->
             <div class="col-lg-4 col-md-6 portfolio-item filter-web">
               <div class="portfolio-content h-100">
-                <img src="assets/img/projects/web-platform.jpg" class="img-fluid" alt="Web Platform">
+                <img src="<?php echo site_image('project_card_1'); ?>" class="img-fluid" alt="Web Platform">
                 <div class="portfolio-info">
                   <h4>Web Platform</h4>
                   <p>Enterprise dashboard and automation portal.</p>
-                  <a href="assets/img/projects/web-platform.jpg" title="Web Platform"
+                  <a href="<?php echo site_image('project_card_1'); ?>" title="Web Platform"
                     data-gallery="portfolio-gallery-web" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                   <a href="project-details-web.php" title="More Details" class="details-link"><i
                       class="bi bi-link-45deg"></i></a>
@@ -518,11 +520,11 @@
             <!-- Mobile Application -->
             <div class="col-lg-4 col-md-6 portfolio-item filter-mobile">
               <div class="portfolio-content h-100">
-                <img src="assets/img/projects/mobile-app.jpg" class="img-fluid" alt="Mobile Application">
+                <img src="<?php echo site_image('project_card_1'); ?>" class="img-fluid" alt="Mobile Application">
                 <div class="portfolio-info">
                   <h4>Mobile Application</h4>
                   <p>Intuitive and user-friendly cross-platform mobile apps.</p>
-                  <a href="assets/img/projects/mobile-app.jpg" title="Mobile Application"
+                  <a href="<?php echo site_image('project_card_1'); ?>" title="Mobile Application"
                     data-gallery="portfolio-gallery-mobile" class="glightbox preview-link"><i
                       class="bi bi-zoom-in"></i></a>
                   <a href="project-details-mobile.php" title="More Details" class="details-link"><i
@@ -534,11 +536,11 @@
             <!-- Smart Blanket -->
             <div class="col-lg-4 col-md-6 portfolio-item filter-hardware">
               <div class="portfolio-content h-100">
-                <img src="assets/img/projects/smart-blanket.jpg" class="img-fluid" alt="Smart Blanket Innovation">
+                <img src="<?php echo site_image('project_card_1'); ?>" class="img-fluid" alt="Smart Blanket Innovation">
                 <div class="portfolio-info">
                   <h4>Smart Blanket</h4>
                   <p>Temperature-controlled, health-tracking smart fabric system.</p>
-                  <a href="assets/img/projects/smart-blanket.jpg" title="Smart Blanket"
+                  <a href="<?php echo site_image('project_card_1'); ?>" title="Smart Blanket"
                     data-gallery="portfolio-gallery-hardware" class="glightbox preview-link"><i
                       class="bi bi-zoom-in"></i></a>
                   <a href="project-details-smart-blanket.php" title="More Details" class="details-link"><i
@@ -550,11 +552,11 @@
             <!-- Smart Bed -->
             <div class="col-lg-4 col-md-6 portfolio-item filter-hardware">
               <div class="portfolio-content h-100">
-                <img src="assets/img/projects/smart-bed.jpg" class="img-fluid" alt="Smart Bed System">
+                <img src="<?php echo site_image('project_card_1'); ?>" class="img-fluid" alt="Smart Bed System">
                 <div class="portfolio-info">
                   <h4>Smart Bed System</h4>
                   <p>Sleep tracking, auto-adjustment, and IoT connectivity.</p>
-                  <a href="assets/img/projects/smart-bed.jpg" title="Smart Bed"
+                  <a href="<?php echo site_image('project_card_1'); ?>" title="Smart Bed"
                     data-gallery="portfolio-gallery-hardware" class="glightbox preview-link"><i
                       class="bi bi-zoom-in"></i></a>
                   <a href="project-details-smart-bed.php" title="More Details" class="details-link"><i
@@ -592,7 +594,11 @@
 
             <?php if (!empty($testimonials)): ?>
               <?php foreach ($testimonials as $t):
-                $img = !empty($t['image']) ? $t['image'] : 'assets/img/testimonials/default.jpg';
+                if (!empty($t['image'])) {
+                  $imgRel = (strpos($t['image'], '/') !== false) ? ltrim($t['image'], '/\\') : 'assets/img/testimonials/' . $t['image'];
+                } else {
+                  $imgRel = 'assets/img/testimonials/default.jpg';
+                }
                 $author = $t['author'] ?? 'Anonymous';
                 $company = $t['company'] ?? '';
                 $quote = $t['quote'] ?? '';
@@ -600,7 +606,7 @@
                 <div class="swiper-slide">
                   <div class="testimonial-wrap">
                     <div class="testimonial-item">
-                      <img src="<?= esc($img) ?>" class="testimonial-img admin-inserted" alt="<?= esc($author) ?>">
+                      <img src="<?php echo esc(asset($imgRel)); ?>" class="testimonial-img admin-inserted" alt="<?= esc($author) ?>">
                       <h3><?= esc($author) ?></h3>
                       <h4><?= esc($company) ?></h4>
                       <div class="stars">
@@ -650,7 +656,7 @@
             <div class="post-item position-relative h-100">
 
               <div class="post-img position-relative overflow-hidden">
-                <img src="assets/img/blog/blog-1.jpg" class="img-fluid" alt="">
+                <img src="<?php echo site_image('screens_computers'); ?>" class="img-fluid" alt="">
                 <span class="post-date">January 10</span>
               </div>
 
@@ -684,7 +690,7 @@
             <div class="post-item position-relative h-100">
 
               <div class="post-img position-relative overflow-hidden">
-                <img src="assets/img/blog/blog-2.jpg" class="img-fluid" alt="">
+                <img src="<?php echo site_image('screens_computers'); ?>" class="img-fluid" alt="">
                 <span class="post-date">December 28</span>
               </div>
 
@@ -718,7 +724,7 @@
             <div class="post-item position-relative h-100">
 
               <div class="post-img position-relative overflow-hidden">
-                <img src="assets/img/blog/blog-3.jpg" class="img-fluid" alt="">
+                <img src="<?php echo site_image('screens_computers'); ?>" class="img-fluid" alt="">
                 <span class="post-date">November 19</span>
               </div>
 

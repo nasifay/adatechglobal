@@ -1,4 +1,5 @@
 <?php require_once __DIR__ . '/includes/helpers.php'; ?>
+<?php require_once __DIR__ . '/includes/site_images.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +12,8 @@
   <meta content="Adatech Solutions, about, Ethiopia, IoT, embedded, software" name="keywords">
 
   <!-- Favicons -->
-  <link href="<?php echo asset('assets/img/favicon.png'); ?>" rel="icon">
-  <link href="<?php echo asset('assets/img/apple-touch-icon.png'); ?>" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,7 +72,7 @@
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('<?php echo asset('assets/img/breadcrumbs-bg.jpg'); ?>');">
+    <div class="breadcrumbs d-flex align-items-center" style="<?php echo site_bg('hero_bg'); ?>">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2>About</h2>
@@ -89,7 +90,7 @@
 
         <div class="row position-relative">
 
-          <div class="col-lg-7 about-img" style="background-image: url(<?php echo "'" . asset('assets/img/about.jpg') . "'"; ?>);"></div>
+          <div class="col-lg-7 about-img" style="<?php echo site_bg('about_main'); ?>"></div>
           <div class="col-lg-7">
             <?php
             // Load about content from DB if available
@@ -235,7 +236,7 @@
 
           <!-- Right Image -->
           <div class="col-lg-6 img-bg"
-            style="background-image: url(<?php echo "'" . asset('assets/img/about-2.jpg') . "'"; ?>)"
+            style="background-image: url(<?php echo "'" . site_image('about_main') . "'"; ?>)"
             data-aos="zoom-in" data-aos-delay="100">
           </div>
 
@@ -268,7 +269,7 @@
                   <?php if (!empty($m['image']) && is_file(__DIR__ . '/assets/img/team/' . $m['image'])): ?>
                     <img src="<?php echo asset('assets/img/team/' . $m['image']); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($m['name']); ?>">
                     <?php else: ?>
-                    <img src="<?php echo asset('assets/img/team/team-1.jpg'); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($m['name']); ?>">
+                    <img src="<?php echo site_image('team_default'); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($m['name']); ?>">
                   <?php endif; ?>
                   <div class="social">
                     <?php if (!empty($m['twitter'])): ?><a href="<?php echo htmlspecialchars($m['twitter']); ?>"><i class="bi bi-twitter"></i></a><?php endif; ?>
@@ -314,7 +315,17 @@
             $testimonials = $tstmt->fetchAll(PDO::FETCH_ASSOC);
             if (!empty($testimonials)):
               foreach ($testimonials as $t):
-                $img = !empty($t['image']) ? $t['image'] : 'assets/img/testimonials/default.jpg';
+                if (!empty($t['image'])) {
+                  if (preg_match('#^https?://#i', $t['image'])) {
+                    $img = $t['image'];
+                  } elseif (strpos($t['image'], '/') !== false) {
+                    $img = asset(ltrim($t['image'], '/\\'));
+                  } else {
+                    $img = asset('assets/img/testimonials/' . $t['image']);
+                  }
+                } else {
+                  $img = site_image('team_default');
+                }
                 $author = $t['author'] ?? $t['name'] ?? 'Anonymous';
                 $company = $t['company'] ?? $t['role'] ?? '';
                 $quote = $t['quote'] ?? $t['message'] ?? '';

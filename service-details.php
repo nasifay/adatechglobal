@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,8 +11,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +48,7 @@
 
       <a href="index.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        
         <h1>Adatech<span>.</span></h1>
       </a>
 
@@ -70,7 +71,8 @@
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+    <?php require_once __DIR__ . '/includes/site_images.php'; ?>
+    <div class="breadcrumbs d-flex align-items-center" style="<?php echo site_bg('hero_bg'); ?>">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2>Service Details</h2>
@@ -104,7 +106,7 @@
           </div>
 
           <div class="col-lg-8">
-            <img src="assets/img/services.jpg" alt="Adatech services" class="img-fluid services-img">
+            <img src="<?php echo site_image('service_main'); ?>" alt="Adatech services" class="img-fluid services-img">
             <h3>Embedded & IoT Systems â€” Design to Deployment</h3>
             <p>
               We design, build and deploy embedded systems and IoT solutions that connect devices, collect data, and

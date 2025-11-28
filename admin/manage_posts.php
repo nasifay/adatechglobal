@@ -116,7 +116,7 @@ $stmt = $pdo->query('SELECT * FROM posts ORDER BY created_at DESC'); $posts = $s
                 <label>Slug<br><input type="text" name="slug" value="<?php echo esc($post['slug']); ?>"></label>
                 <label>Excerpt<br><textarea name="excerpt" rows="3"><?php echo esc($post['excerpt']); ?></textarea></label>
                 <label>Body<br><textarea name="body" rows="8"><?php echo esc($post['body']); ?></textarea></label>
-                <div>Current Image: <?php if ($post['image']): ?><img src="/assets/img/blog/<?php echo esc($post['image']); ?>" style="height:40px"><?php endif; ?></div>
+                <div>Current Image: <?php if ($post['image']): ?><img src="<?php echo esc(asset('assets/img/blog/' . $post['image'])); ?>" style="height:40px"><?php endif; ?></div>
                 <label>Replace Image<br><input type="file" name="image" accept="image/*"></label>
                 <label>Author<br><input type="text" name="author" value="<?php echo esc($post['author']); ?>"></label>
                 <button type="submit">Save Changes</button> <a href="manage_posts.php">Cancel</a>

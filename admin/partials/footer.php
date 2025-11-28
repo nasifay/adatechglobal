@@ -23,8 +23,8 @@
       </div>
     </div>
   </footer>
-  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/js/main.js"></script>
+  <script src="<?php echo asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo asset('assets/js/main.js'); ?>"></script>
   <script>
     // Toggle collapsible header descriptions
     (function(){

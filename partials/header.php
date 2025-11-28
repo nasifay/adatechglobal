@@ -1,5 +1,8 @@
 <?php
 // partials/header.php - single, clean header partial
+// Ensure helpers are available when this header is included
+require_once __DIR__ . '/../includes/helpers.php';
+require_once __DIR__ . '/../includes/site_images.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +12,8 @@
   <title>Adatech Solutions | Software, Embedded Systems &amp; IoT — Ethiopia</title>
   <meta content="We deliver innovative software, embedded systems, and digital solutions that empower businesses, communities, and innovators to thrive in the digital era." name="description">
   <meta content="Adatech, Ada Technology, software development Ethiopia, IoT Ethiopia, smart devices, embedded systems, website design Ethiopia, mobile apps" name="keywords">
-  <link href="<?php echo asset('assets/img/favicon.png'); ?>" rel="icon">
-  <link href="<?php echo asset('assets/img/apple-touch-icon.png'); ?>" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">

@@ -128,7 +128,7 @@ $images = $pdo->query('SELECT * FROM images ORDER BY uploaded_at DESC')->fetchAl
                     <td><?php echo (int)$s['id']; ?></td>
                     <td><?php echo esc($s['title']); ?></td>
                     <td><?php echo esc(mb_strimwidth($s['description'], 0, 80, '...')); ?></td>
-                    <td><?php if ($s['icon']): ?><img src="/<?php echo esc($s['icon']); ?>" style="height:40px"><?php endif; ?></td>
+                    <td><?php if ($s['icon']): ?><img src="<?php echo esc(asset(ltrim($s['icon'], '/\\'))); ?>" style="height:40px"><?php endif; ?></td>
                     <td>
                         <a href="manage_services.php?action=edit&id=<?php echo (int)$s['id']; ?>">Edit</a>
                         <form action="manage_services.php" method="post" style="display:inline" onsubmit="return confirm('Delete service?');">
@@ -151,7 +151,7 @@ $images = $pdo->query('SELECT * FROM images ORDER BY uploaded_at DESC')->fetchAl
                 <input type="hidden" name="id" value="<?php echo (int)$service['id']; ?>">
                 <div><label>Title<br><input type="text" name="title" value="<?php echo esc($service['title']); ?>" required></label></div>
                 <div><label>Description<br><textarea name="description" rows="4"><?php echo esc($service['description']); ?></textarea></label></div>
-                <div>Current Icon: <?php if ($service['icon']): ?><img src="/<?php echo esc($service['icon']); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
+                <div>Current Icon: <?php if ($service['icon']): ?><img src="<?php echo esc(asset(ltrim($service['icon'], '/\\'))); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
                     <div><label>Replace Icon/Image<br><input type="file" name="image" accept="image/*"></label></div>
                     <div><label>Or choose existing image<br>
                         <select name="existing_image">

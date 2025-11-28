@@ -2,10 +2,12 @@
 require __DIR__ . '/includes/config.php';
 require __DIR__ . '/includes/db.php';
 require __DIR__ . '/includes/helpers.php';
+require __DIR__ . '/includes/site_images.php';
 
 $stmt = $pdo->query("SELECT * FROM projects ORDER BY id DESC");
 $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<?php require_once __DIR__ . '/includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +20,8 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?php echo site_image('favicon'); ?>" rel="icon">
+  <link href="<?php echo site_image('apple_touch_icon'); ?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +57,7 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       <a href="index.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        
         <h1>Adatech<span>.</span></h1>
       </a>
 
@@ -78,7 +80,7 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+    <div class="breadcrumbs d-flex align-items-center" style="<?php echo site_bg('hero_bg'); ?>">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
 
         <h2>Projects</h2>
@@ -110,7 +112,15 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <?php foreach ($projects as $p):
                 $category = isset($p['category']) && $p['category'] !== '' ? $p['category'] : 'other';
                 $filterClass = 'filter-' . preg_replace('/[^a-z0-9]+/i', '-', strtolower($category));
-                $img = !empty($p['image']) ? $p['image'] : 'assets/img/projects/default.jpg';
+                if (!empty($p['image'])) {
+                  if (strpos($p['image'], '/') !== false || preg_match('#^https?://#i', $p['image'])) {
+                    $img = $p['image'];
+                  } else {
+                    $img = asset('assets/img/projects/' . $p['image']);
+                  }
+                } else {
+                  $img = site_image('project_card_1');
+                }
                 $title = $p['title'] ?? 'Untitled';
                 $excerpt = $p['excerpt'] ?? (isset($p['description']) ? substr(strip_tags($p['description']), 0, 120) : '');
                 $imgAlt = $p['image_alt'] ?? $title;

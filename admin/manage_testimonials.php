@@ -137,7 +137,7 @@ $testImages = $testImagesStmt->fetchAll();
                     <td><?php echo esc($it['name']); ?></td>
                     <td><?php echo esc($it['role']); ?></td>
                     <td><?php echo esc(mb_strimwidth($it['message'], 0, 80, '...')); ?></td>
-                    <td><?php if ($it['image']): ?><img src="/assets/img/testimonials/<?php echo esc($it['image']); ?>" style="height:40px"><?php endif; ?></td>
+                    <td><?php if ($it['image']): ?><img src="<?php echo esc(asset('assets/img/testimonials/' . $it['image'])); ?>" style="height:40px"><?php endif; ?></td>
                     <td>
                         <a href="manage_testimonials.php?action=edit&id=<?php echo (int)$it['id']; ?>">Edit</a>
                         <form action="manage_testimonials.php" method="post" style="display:inline" onsubmit="return confirm('Delete testimonial?');">
@@ -161,7 +161,7 @@ $testImages = $testImagesStmt->fetchAll();
                 <div><label>Name<br><input type="text" name="name" value="<?php echo esc($testimonial['name']); ?>" required></label></div>
                 <div><label>Role<br><input type="text" name="role" value="<?php echo esc($testimonial['role']); ?>"></label></div>
                 <div><label>Message<br><textarea name="message" rows="4"><?php echo esc($testimonial['message']); ?></textarea></label></div>
-                <div>Current Image: <?php if ($testimonial['image']): ?><img src="/assets/img/testimonials/<?php echo esc($testimonial['image']); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
+                <div>Current Image: <?php if ($testimonial['image']): ?><img src="<?php echo esc(asset('assets/img/testimonials/' . $testimonial['image'])); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
                 <div><label>Replace Image<br><input type="file" name="image" accept="image/*"></label></div>
                 <div><label>Or choose existing image<br>
                     <select name="existing_image">
