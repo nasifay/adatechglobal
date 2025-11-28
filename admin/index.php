@@ -94,14 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Adatech Admin - Login / Sign Up</title>
-    <link rel="stylesheet" href="admin.css">
-</head>
-<body>
+<?php $pageTitle = 'Admin Login'; require_once __DIR__ . '/partials/header.php'; ?>
+
     <div class="login-container">
         <h2>Adatech Admin</h2>
         <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
@@ -122,17 +116,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="box" style="min-width:260px">
                 <h3>Sign Up</h3>
                 <p style="color:#666">If no admin account exists you can create one. Click the button to open the secure signup dialog.</p>
-                                <div style="margin-top:8px">
-                                    <button class="show-signup-btn" style="background:#0d6efd;color:#fff;padding:8px 12px;border-radius:4px;border:0;font-weight:600">Sign Up</button>
-                                </div>
+                <div style="margin-top:8px">
+                    <button class="show-signup-btn" style="background:#0d6efd;color:#fff;padding:8px 12px;border-radius:4px;border:0;font-weight:600">Sign Up</button>
+                </div>
             </div>
         </div>
     </div>
-</body>
+
 <?php
 // include modal partial (shared with header) so the signup dialog is available on this page
 if (file_exists(__DIR__ . '/partials/signup_modal.php')) {
     include __DIR__ . '/partials/signup_modal.php';
 }
-?>
-</html>
+
+require_once __DIR__ . '/partials/footer.php';
+
