@@ -9,7 +9,8 @@
 .picker-preview { display:flex; gap:8px; align-items:center }
 .picker-preview img { height:48px; border-radius:4px }
 body { font-family: 'Open Sans', Arial, sans-serif; background: #f8f9fa; margin: 0; }
-.login-container, .dashboard-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
+.login-container { max-width: 420px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
+.dashboard-container { max-width: 1100px; margin: 28px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); padding: 18px; }
 /* Make main headings black for admin pages and add spacing */
 h1, h2 { color: #000; margin-top: 16px; margin-bottom: 12px; }
 
@@ -54,5 +55,11 @@ a:hover { text-decoration: underline; }
 .admin-recent { margin-top:16px }
 .admin-recent .recent-item { background:#fff;border:1px solid #e9ecef;padding:10px;border-radius:6px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center }
 .admin-card { border-radius:8px; border:1px solid #eee; box-shadow: none }
-.admin-welcome { margin-bottom:18px; padding:16px; border-radius:8px; background: linear-gradient(90deg,#0d6efd08,#0d6efd05); border:1px solid #e9ecef }
+.admin-welcome { margin-bottom:18px; padding:16px; border-radius:8px; background: transparent; border:1px solid #e9ecef }
 .admin-actions { display:flex; gap:8px; flex-wrap:wrap }
+
+/* Admin banner styled to match site header spacing and tone */
+.admin-banner { padding:10px 0; border-bottom:1px solid #e9ecef; background:transparent }
+.admin-banner h4 { font-size:1rem; margin:0; font-weight:600 }
+.admin-banner .admin-user { font-size:0.95rem; color:#333 }
+.admin-banner a { color: #0d6efd; text-decoration:none }

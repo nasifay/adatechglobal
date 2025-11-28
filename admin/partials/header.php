@@ -10,18 +10,24 @@ if (session_status() !== PHP_SESSION_ACTIVE) { @session_start(); }
 // Add small admin topbar and admin stylesheet when the site header is used
 ?>
 <link rel="stylesheet" href="<?php echo asset('admin/admin.css'); ?>">
-<?php if (!empty($_SESSION['admin_logged_in'])): ?>
-  <div class="admin-topbar" style="background:#111;color:#fff;padding:8px 12px;display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:14px;">
-    <span style="margin-right:auto;font-weight:600">Admin</span>
-    <a href="dashboard.php" style="color:#111;background:#fff;padding:6px 10px;border-radius:4px;text-decoration:none;font-weight:600;margin-right:8px">Dashboard</a>
-    <a href="logout.php" style="color:#111;background:#fff;padding:6px 10px;border-radius:4px;text-decoration:none;font-weight:600">Logout</a>
+<?php // Render a subtle admin banner inside the site's container so admin keeps the site's UI/UX ?>
+<div class="container">
+  <div class="admin-banner-wrapper">
+    <?php if (!empty($_SESSION['admin_logged_in'])): ?>
+      <div class="admin-banner d-flex align-items-center">
+        <h4 style="margin:0">Admin Panel</h4>
+        <div class="ms-auto admin-user">Logged in as <strong><?php echo htmlspecialchars($_SESSION['admin_user'] ?? 'Admin'); ?></strong>
+          &nbsp; &middot; &nbsp; <a href="logout.php">Logout</a>
+        </div>
+      </div>
+    <?php else: ?>
+      <div class="admin-banner d-flex align-items-center">
+        <h4 style="margin:0">Admin</h4>
+        <div class="ms-auto"><a href="index.php">Login</a></div>
+      </div>
+    <?php endif; ?>
   </div>
-<?php else: ?>
-  <div class="admin-topbar" style="background:#111;color:#fff;padding:8px 12px;display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:14px;">
-    <span style="margin-right:auto;font-weight:600">Admin</span>
-    <a href="index.php" style="color:#111;background:#fff;padding:6px 10px;border-radius:4px;text-decoration:none;font-weight:600;margin-right:8px">Login</a>
-  </div>
-<?php endif; ?>
+</div>
 
 <main class="container dashboard-container">
   <div class="admin-layout">
