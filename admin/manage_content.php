@@ -107,44 +107,36 @@ unset($it);
     <div class="row">
       <div class="col-md-6">
         <h3>Create / Edit</h3>
-        <form method="post">
-          <input type="hidden" name="id" id="content-id">
-          <div class="mb-3">
-            <label class="form-label">Type</label>
-            <select class="form-control" name="type" id="content-type" required>
-              <option value="landing">landing</option>
-              <option value="about">about</option>
-              <option value="contact">contact</option>
-              <option value="other">other</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Title</label>
-            <input class="form-control" name="title" id="content-title">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Body (HTML allowed)</label>
-            <textarea class="form-control" name="body" id="content-body" rows="8"></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Featured Image (pick existing)</label>
-            <select class="form-control" name="image" id="content-image">
-              <option value="">-- none --</option>
-              <?php
-              $imgRows = $pdo->query("SELECT id, type, filename, path FROM images ORDER BY uploaded_at DESC LIMIT 200")->fetchAll(PDO::FETCH_ASSOC);
-              $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-              foreach ($imgRows as $ir) {
-                $val = htmlspecialchars($ir['filename']);
-                $rel = !empty($ir['path']) ? ltrim($ir['path'], '/\\') : 'assets/img/' . $ir['type'] . '/' . $ir['filename'];
-                $p = $base . '/' . $rel;
-                echo '<option data-path="' . htmlspecialchars($p) . '" value="' . $val . '">' . $val . ' (' . htmlspecialchars($ir['type']) . ')</option>';
-              }
-              ?>
-            </select>
-            <div style="margin-top:8px;"><img id="content-image-preview" src="" style="max-width:200px;display:none"></div>
-          </div>
-          <button class="btn btn-primary" type="submit">Save</button>
-        </form>
+        <?php
+        $forms = include __DIR__ . '/forms.php';
+        $base = $forms['content'] ?? [];
+        // prepare image options with data-path
+        $imgRows = $pdo->query("SELECT id, type, filename, path FROM images ORDER BY uploaded_at DESC LIMIT 200")->fetchAll(PDO::FETCH_ASSOC);
+        $basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+        $opts = [];
+        foreach ($imgRows as $ir) {
+            $val = $ir['filename'];
+            $label = $ir['filename'] . ' (' . $ir['type'] . ')';
+            $rel = !empty($ir['path']) ? ltrim($ir['path'], '/\\') : 'assets/img/' . $ir['type'] . '/' . $ir['filename'];
+            $p = $basePath . '/' . $rel;
+            $opts[$val] = ['value' => $val, 'label' => $label, 'path' => $p];
+        }
+        // attach picker attrs and ids so JS editItem interacts with these elements
+        foreach ($base as &$f) {
+            if (!empty($f['name']) && $f['name'] === 'type') { $f['attrs'] = ['id' => 'content-type']; }
+            if (!empty($f['name']) && $f['name'] === 'title') { $f['attrs'] = ['id' => 'content-title']; }
+            if (!empty($f['name']) && $f['name'] === 'body') { $f['attrs'] = ['id' => 'content-body']; }
+            if (!empty($f['name']) && $f['name'] === 'image') { $f['type'] = 'picker'; $f['attrs'] = ['id' => 'content-image']; $f['options'] = $opts; }
+        }
+        unset($f);
+        // add id hidden as a field so it has an element id for JS
+        array_unshift($base, ['type' => 'hidden', 'name' => 'id', 'value' => '', 'attrs' => ['id' => 'content-id']]);
+        $hidden = [];
+        $form_action = '';
+        $fields = $base;
+        $submit_label = 'Save';
+        include __DIR__ . '/partials/admin_form.php';
+        ?>
       </div>
 
       <div class="col-md-6">
@@ -187,29 +179,6 @@ unset($it);
     </div>
   </div>
 
-  <script>
-    function editItem(id, type, title, body, image) {
-      document.getElementById('content-id').value = id;
-      document.getElementById('content-type').value = type;
-      document.getElementById('content-title').value = title;
-      document.getElementById('content-body').value = body;
-      if (image) {
-        document.getElementById('content-image').value = image;
-        var opt = document.getElementById('content-image').selectedOptions[0];
-        if (opt && opt.dataset && opt.dataset.path) {
-          var img = document.getElementById('content-image-preview'); img.src = opt.dataset.path; img.style.display = 'block';
-        }
-      } else {
-        document.getElementById('content-image').value = '';
-        document.getElementById('content-image-preview').style.display = 'none';
-      }
-      window.scrollTo(0,0);
-    }
-    document.getElementById('content-image').addEventListener('change', function(e){
-      var opt = this.selectedOptions[0];
-      var img = document.getElementById('content-image-preview');
-      if (opt && opt.dataset && opt.dataset.path) { img.src = opt.dataset.path; img.style.display = 'block'; } else { img.style.display = 'none'; }
-    });
-  </script>
+  <!-- Content page scripts moved to admin/admin.js -->
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>

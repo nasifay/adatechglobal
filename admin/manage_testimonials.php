@@ -106,26 +106,23 @@ $testImages = $testImagesStmt->fetchAll();
         <?php if (!empty($_GET['msg'])): ?><div class="msg"><?php echo esc($_GET['msg']); ?></div><?php endif; ?>
 
         <h3>Add Testimonial</h3>
-        <form action="manage_testimonials.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="csrf" value="<?php echo esc($csrf); ?>">
-            <input type="hidden" name="form" value="add">
-            <div><label>Name<br><input type="text" name="name" required></label></div>
-            <div><label>Role<br><input type="text" name="role"></label></div>
-            <div><label>Message<br><textarea name="message" rows="4"></textarea></label></div>
-            <div><label>Image<br><input type="file" name="image" accept="image/*"></label></div>
-            <div class="d-flex align-items-center" style="gap:8px">
-                <label>Existing image: </label>
-                <select id="test_image_select" name="existing_image">
-                    <option value="">-- none --</option>
-                    <?php foreach ($testImages as $img): ?>
-                        <option value="<?php echo esc($img['filename']); ?>"><?php echo esc($img['type'] . '/' . $img['filename']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="openImagePicker('test_image_select', 'test-image-preview')">Pick</button>
-                <div id="test-image-preview" class="picker-preview"></div>
-            </div>
-            <div><button type="submit">Add Testimonial</button></div>
-        </form>
+        <?php
+        $forms = include __DIR__ . '/forms.php';
+        $base = $forms['testimonials'] ?? [];
+        $testOptions = ['' => '-- none --'];
+        foreach ($testImages as $img) {
+            $testOptions[$img['filename']] = $img['type'] . '/' . $img['filename'];
+        }
+        foreach ($base as &$f) {
+            if (($f['name'] ?? '') === 'image') $f['options'] = $testOptions;
+        }
+        unset($f);
+        $form_action = 'manage_testimonials.php';
+        $hidden = ['csrf' => $csrf, 'form' => 'add'];
+        $fields = $base;
+        $submit_label = 'Add Testimonial';
+        include __DIR__ . '/partials/admin_form.php';
+        ?>
 
         <h3>Existing Testimonials</h3>
         <table>
@@ -137,7 +134,7 @@ $testImages = $testImagesStmt->fetchAll();
                     <td><?php echo esc($it['name']); ?></td>
                     <td><?php echo esc($it['role']); ?></td>
                     <td><?php echo esc(mb_strimwidth($it['message'], 0, 80, '...')); ?></td>
-                    <td><?php if ($it['image']): ?><img src="<?php echo esc(asset('assets/img/testimonials/' . $it['image'])); ?>" style="height:40px"><?php endif; ?></td>
+                    <td><?php if ($it['image']): ?><img src="/assets/img/testimonials/<?php echo esc($it['image']); ?>" style="height:40px"><?php endif; ?></td>
                     <td>
                         <a href="manage_testimonials.php?action=edit&id=<?php echo (int)$it['id']; ?>">Edit</a>
                         <form action="manage_testimonials.php" method="post" style="display:inline" onsubmit="return confirm('Delete testimonial?');">
@@ -154,25 +151,28 @@ $testImages = $testImagesStmt->fetchAll();
 
         <?php if ($action === 'edit' && !empty($testimonial)): ?>
             <h3>Edit Testimonial #<?php echo (int)$testimonial['id']; ?></h3>
-            <form action="manage_testimonials.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="csrf" value="<?php echo esc($csrf); ?>">
-                <input type="hidden" name="form" value="edit">
-                <input type="hidden" name="id" value="<?php echo (int)$testimonial['id']; ?>">
-                <div><label>Name<br><input type="text" name="name" value="<?php echo esc($testimonial['name']); ?>" required></label></div>
-                <div><label>Role<br><input type="text" name="role" value="<?php echo esc($testimonial['role']); ?>"></label></div>
-                <div><label>Message<br><textarea name="message" rows="4"><?php echo esc($testimonial['message']); ?></textarea></label></div>
-                <div>Current Image: <?php if ($testimonial['image']): ?><img src="<?php echo esc(asset('assets/img/testimonials/' . $testimonial['image'])); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
-                <div><label>Replace Image<br><input type="file" name="image" accept="image/*"></label></div>
-                <div><label>Or choose existing image<br>
-                    <select name="existing_image">
-                        <option value="">-- none --</option>
-                        <?php foreach ($testImages as $img): ?>
-                            <option value="<?php echo esc($img['filename']); ?>"><?php echo esc($img['type'] . '/' . $img['filename']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </label></div>
-                <div><button type="submit">Save Changes</button> <a href="manage_testimonials.php">Cancel</a></div>
-            </form>
+            <?php
+            $forms = include __DIR__ . '/forms.php';
+            $base = $forms['testimonials'] ?? [];
+            $testOptions = ['' => '-- none --'];
+            foreach ($testImages as $img) {
+                $testOptions[$img['filename']] = $img['type'] . '/' . $img['filename'];
+            }
+            foreach ($base as &$f) {
+                if (($f['name'] ?? '') === 'image') $f['options'] = $testOptions;
+                if (!empty($testimonial) && isset($f['name']) && isset($testimonial[$f['name']])) {
+                    $f['value'] = $testimonial[$f['name']];
+                }
+            }
+            unset($f);
+            // add current image preview
+            array_splice($base, 3, 0, [['type'=>'html','html'=>'<div>Current Image: ' . ($testimonial['image'] ? '<img src="/assets/img/testimonials/' . esc($testimonial['image']) . '" style="height:40px">' : 'None') . '</div>']]);
+            $form_action = 'manage_testimonials.php';
+            $hidden = ['csrf' => $csrf, 'form' => 'edit', 'id' => (int)$testimonial['id']];
+            $fields = $base;
+            $submit_label = 'Save Changes';
+            include __DIR__ . '/partials/admin_form.php';
+            ?>
         <?php endif; ?>
 
         <p><a href="dashboard.php">Back to Dashboard</a></p>

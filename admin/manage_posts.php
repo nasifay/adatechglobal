@@ -73,17 +73,29 @@ $stmt = $pdo->query('SELECT * FROM posts ORDER BY created_at DESC'); $posts = $s
         <?php if (!empty($_GET['msg'])): ?><div class="msg"><?php echo esc($_GET['msg']); ?></div><?php endif; ?>
 
         <h3>Add Post</h3>
-        <form action="manage_posts.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="csrf" value="<?php echo esc($csrf); ?>">
-            <input type="hidden" name="form" value="add">
-            <label>Title<br><input type="text" name="title" required></label>
-            <label>Slug (optional)<br><input type="text" name="slug"></label>
-            <label>Excerpt<br><textarea name="excerpt" rows="3"></textarea></label>
-            <label>Body<br><textarea name="body" rows="8"></textarea></label>
-            <label>Image<br><input type="file" name="image" accept="image/*"></label>
-            <label>Author<br><input type="text" name="author" value="<?php echo esc($_SESSION['admin_user'] ?? 'Admin'); ?>"></label>
-            <button type="submit">Add Post</button>
-        </form>
+        <h3>Add Post</h3>
+        <?php
+        $forms = include __DIR__ . '/forms.php';
+        $base = $forms['posts'] ?? [];
+        // allow selecting an existing blog image
+        $imgRows = $pdo->query("SELECT * FROM images WHERE type IN ('blog','uploads') ORDER BY uploaded_at DESC LIMIT 200")->fetchAll(PDO::FETCH_ASSOC);
+        $opts = [];
+        foreach ($imgRows as $ir) {
+            $val = $ir['filename'];
+            $label = ($ir['type'] ? $ir['type'] . '/' : '') . $ir['filename'];
+            $path = !empty($ir['path']) ? ltrim($ir['path'], '/\\') : 'assets/img/' . $ir['type'] . '/' . $ir['filename'];
+            $opts[$val] = ['value' => $val, 'label' => $label, 'path' => $path];
+        }
+        $base[] = ['type' => 'picker', 'name' => 'existing_image', 'label' => 'Or choose existing image', 'options' => $opts];
+        $form_action = 'manage_posts.php';
+        $hidden = ['csrf' => $csrf, 'form' => 'add'];
+        // default author
+        foreach ($base as &$bf) { if (($bf['name'] ?? '') === 'author') $bf['value'] = $_SESSION['admin_user'] ?? 'Admin'; }
+        unset($bf);
+        $fields = $base;
+        $submit_label = 'Add Post';
+        include __DIR__ . '/partials/admin_form.php';
+        ?>
 
         <h3>Existing Posts</h3>
         <table><thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Date</th><th>Actions</th></tr></thead><tbody>
@@ -108,19 +120,33 @@ $stmt = $pdo->query('SELECT * FROM posts ORDER BY created_at DESC'); $posts = $s
 
         <?php if ($action === 'edit' && !empty($post)): ?>
             <h3>Edit Post #<?php echo (int)$post['id']; ?></h3>
-            <form action="manage_posts.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="csrf" value="<?php echo esc($csrf); ?>">
-                <input type="hidden" name="form" value="edit">
-                <input type="hidden" name="id" value="<?php echo (int)$post['id']; ?>">
-                <label>Title<br><input type="text" name="title" value="<?php echo esc($post['title']); ?>" required></label>
-                <label>Slug<br><input type="text" name="slug" value="<?php echo esc($post['slug']); ?>"></label>
-                <label>Excerpt<br><textarea name="excerpt" rows="3"><?php echo esc($post['excerpt']); ?></textarea></label>
-                <label>Body<br><textarea name="body" rows="8"><?php echo esc($post['body']); ?></textarea></label>
-                <div>Current Image: <?php if ($post['image']): ?><img src="<?php echo esc(asset('assets/img/blog/' . $post['image'])); ?>" style="height:40px"><?php endif; ?></div>
-                <label>Replace Image<br><input type="file" name="image" accept="image/*"></label>
-                <label>Author<br><input type="text" name="author" value="<?php echo esc($post['author']); ?>"></label>
-                <button type="submit">Save Changes</button> <a href="manage_posts.php">Cancel</a>
-            </form>
+            <?php
+            $forms = include __DIR__ . '/forms.php';
+            $base = $forms['posts'] ?? [];
+            foreach ($base as &$bf) {
+                if (!empty($post) && isset($bf['name']) && isset($post[$bf['name']])) {
+                    $bf['value'] = $post[$bf['name']];
+                }
+            }
+            unset($bf);
+            // current image preview
+            $preview = '<div>Current Image: ' . ($post['image'] ? '<img src="/assets/img/blog/' . esc($post['image']) . '" style="height:40px">' : 'None') . '</div>';
+            array_splice($base, 4, 0, [['type' => 'html', 'html' => $preview]]);
+            // attach existing images picker
+            $opts = [];
+            foreach ($imgRows as $ir) {
+                $val = $ir['filename'];
+                $label = ($ir['type'] ? $ir['type'] . '/' : '') . $ir['filename'];
+                $path = !empty($ir['path']) ? ltrim($ir['path'], '/\\') : 'assets/img/' . $ir['type'] . '/' . $ir['filename'];
+                $opts[$val] = ['value' => $val, 'label' => $label, 'path' => $path];
+            }
+            $base[] = ['type' => 'picker', 'name' => 'existing_image', 'label' => 'Or choose existing image', 'options' => $opts];
+            $form_action = 'manage_posts.php';
+            $hidden = ['csrf' => $csrf, 'form' => 'edit', 'id' => (int)$post['id']];
+            $fields = $base;
+            $submit_label = 'Save Changes';
+            include __DIR__ . '/partials/admin_form.php';
+            ?>
         <?php endif; ?>
 
         <p><a href="dashboard.php">Back to Dashboard</a></p>

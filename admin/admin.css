@@ -9,8 +9,7 @@
 .picker-preview { display:flex; gap:8px; align-items:center }
 .picker-preview img { height:48px; border-radius:4px }
 body { font-family: 'Open Sans', Arial, sans-serif; background: #f8f9fa; margin: 0; }
-.login-container { max-width: 420px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
-.dashboard-container { max-width: 1100px; margin: 28px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); padding: 18px; }
+.login-container, .dashboard-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
 /* Make main headings black for admin pages and add spacing */
 h1, h2 { color: #000; margin-top: 16px; margin-bottom: 12px; }
 
@@ -34,32 +33,3 @@ a { color: #0d6efd; text-decoration: none; }
 a:hover { text-decoration: underline; }
 .dashboard-container ul { margin-top: 24px; }
 .dashboard-container a { font-weight: 500; }
-
-/* Admin layout: sidebar + content */
-.admin-layout { display: flex; gap: 18px; align-items: flex-start; }
-.admin-sidebar { width: 220px; background: #fff; border:1px solid #e9ecef; border-radius:6px; padding:12px; }
-.admin-sidebar ul { padding:0; margin:0; }
-.admin-sidebar li { margin: 8px 0; }
-.admin-sidebar a { display:block; padding:8px 10px; border-radius:4px; color:#111; background:transparent }
-.admin-sidebar a.active, .admin-sidebar a:hover { background:#0d6efd;color:#fff; }
-.admin-content { flex:1; background:transparent }
-.admin-form-row { margin-bottom:12px }
-.admin-form-row label { display:block; font-weight:600; margin-bottom:6px }
-.admin-small { font-size:0.9em; color:#666 }
-
-/* Dashboard specific */
-.admin-stats { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:16px; margin-bottom:18px }
-.admin-stat { background:#fff; border:1px solid #e9ecef; padding:16px; border-radius:8px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.03) }
-.admin-stat .count { font-size:1.6rem; font-weight:700; color:#0d6efd }
-.admin-stat .label { font-size:0.95rem; color:#333 }
-.admin-recent { margin-top:16px }
-.admin-recent .recent-item { background:#fff;border:1px solid #e9ecef;padding:10px;border-radius:6px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center }
-.admin-card { border-radius:8px; border:1px solid #eee; box-shadow: none }
-.admin-welcome { margin-bottom:18px; padding:16px; border-radius:8px; background: transparent; border:1px solid #e9ecef }
-.admin-actions { display:flex; gap:8px; flex-wrap:wrap }
-
-/* Admin banner styled to match site header spacing and tone */
-.admin-banner { padding:10px 0; border-bottom:1px solid #e9ecef; background:transparent }
-.admin-banner h4 { font-size:1rem; margin:0; font-weight:600 }
-.admin-banner .admin-user { font-size:0.95rem; color:#333 }
-.admin-banner a { color: #0d6efd; text-decoration:none }

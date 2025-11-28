@@ -28,19 +28,4 @@ $csrf = $_SESSION['csrf_token'];
   </div>
 </div>
 
-<script>
-  (function(){
-    var modal = document.getElementById('signupModal');
-    var close = document.getElementById('signupModalClose');
-    var cancel = document.getElementById('signupModalCancel');
-    function show(){ modal.style.display = 'flex'; document.body.style.overflow='hidden'; }
-    function hide(){ modal.style.display = 'none'; document.body.style.overflow='auto'; }
-    document.addEventListener('click', function(e){
-      if (e.target && e.target.matches && e.target.matches('.show-signup-btn')) { e.preventDefault(); show(); }
-    });
-    if (close) close.addEventListener('click', hide);
-    if (cancel) cancel.addEventListener('click', hide);
-    // close on ESC
-    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hide(); });
-  })();
-</script>
+<!-- Signup modal behavior moved to admin/admin.js -->

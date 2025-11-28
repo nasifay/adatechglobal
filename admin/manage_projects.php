@@ -108,25 +108,25 @@ $projImages = $projImagesStmt->fetchAll();
         <?php if (!empty($_GET['msg'])): ?><div class="msg"><?php echo esc($_GET['msg']); ?></div><?php endif; ?>
 
         <h3>Add New Project</h3>
-        <form action="manage_projects.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="csrf" value="<?php echo esc($csrf); ?>">
-            <input type="hidden" name="form" value="add">
-            <div><label>Title<br><input type="text" name="title" required></label></div>
-            <div><label>Description<br><textarea name="description" rows="4"></textarea></label></div>
-            <div><label>Image<br><input type="file" name="image" accept="image/*"></label></div>
-            <div class="d-flex align-items-center" style="gap:8px">
-                <label>Existing image: </label>
-                <select id="project_image_select" name="existing_image">
-                    <option value="">-- none --</option>
-                    <?php foreach ($projImages as $img): ?>
-                        <option value="<?php echo esc($img['filename']); ?>"><?php echo esc($img['type'] . '/' . $img['filename']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="openImagePicker('project_image_select', 'project-image-preview')">Pick</button>
-                <div id="project-image-preview" class="picker-preview"></div>
-            </div>
-            <div><button type="submit">Add Project</button></div>
-        </form>
+        <?php
+        $forms = include __DIR__ . '/forms.php';
+        $base = $forms['projects'] ?? [];
+        // attach existing images as options for picker/select
+        $opts = [];
+        foreach ($projImages as $img) {
+            $val = $img['filename'];
+            $label = $img['type'] . '/' . $img['filename'];
+            // compute preview path
+            $path = !empty($img['path']) ? ltrim($img['path'], '/\\') : 'assets/img/' . $img['type'] . '/' . $img['filename'];
+            $opts[$val] = ['value' => $val, 'label' => $label, 'path' => $path];
+        }
+        $base[] = ['type' => 'picker', 'name' => 'existing_image', 'label' => 'Or choose existing image', 'options' => $opts];
+        $form_action = 'manage_projects.php';
+        $hidden = ['csrf' => $csrf, 'form' => 'add'];
+        $fields = $base;
+        $submit_label = 'Add Project';
+        include __DIR__ . '/partials/admin_form.php';
+        ?>
 
         <h3>Existing Projects</h3>
         <table>
@@ -137,7 +137,7 @@ $projImages = $projImagesStmt->fetchAll();
                     <td><?php echo (int)$p['id']; ?></td>
                     <td><?php echo esc($p['title']); ?></td>
                     <td><?php echo esc(mb_strimwidth($p['description'], 0, 80, '...')); ?></td>
-                    <td><?php if ($p['image']): ?><img src="<?php echo esc(asset('assets/img/projects/' . $p['image'])); ?>" style="height:40px"><?php endif; ?></td>
+                    <td><?php if ($p['image']): ?><img src="/assets/img/projects/<?php echo esc($p['image']); ?>" style="height:40px"><?php endif; ?></td>
                     <td>
                         <a href="manage_projects.php?action=edit&id=<?php echo (int)$p['id']; ?>">Edit</a>
                         <form action="manage_projects.php" method="post" style="display:inline" onsubmit="return confirm('Delete project?');">
@@ -154,24 +154,33 @@ $projImages = $projImagesStmt->fetchAll();
 
         <?php if ($action === 'edit' && !empty($project)): ?>
             <h3>Edit Project #<?php echo (int)$project['id']; ?></h3>
-            <form action="manage_projects.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="csrf" value="<?php echo esc($csrf); ?>">
-                <input type="hidden" name="form" value="edit">
-                <input type="hidden" name="id" value="<?php echo (int)$project['id']; ?>">
-                <div><label>Title<br><input type="text" name="title" value="<?php echo esc($project['title']); ?>" required></label></div>
-                <div><label>Description<br><textarea name="description" rows="4"><?php echo esc($project['description']); ?></textarea></label></div>
-                <div>Current Image: <?php if ($project['image']): ?><img src="<?php echo esc(asset('assets/img/projects/' . $project['image'])); ?>" style="height:40px"><?php else: ?>None<?php endif; ?></div>
-                <div><label>Replace Image<br><input type="file" name="image" accept="image/*"></label></div>
-                <div><label>Or choose existing image<br>
-                    <select name="existing_image">
-                        <option value="">-- none --</option>
-                        <?php foreach ($projImages as $img): ?>
-                            <option value="<?php echo esc($img['filename']); ?>"><?php echo esc($img['type'] . '/' . $img['filename']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </label></div>
-                <div><button type="submit">Save Changes</button> <a href="manage_projects.php">Cancel</a></div>
-            </form>
+            <?php
+            $forms = include __DIR__ . '/forms.php';
+            $base = $forms['projects'] ?? [];
+            foreach ($base as &$f) {
+                if (!empty($project) && isset($f['name']) && isset($project[$f['name']])) {
+                    $f['value'] = $project[$f['name']];
+                }
+            }
+            unset($f);
+            // inject current image preview
+            $preview = '<div>Current Image: ' . ($project['image'] ? '<img src="/assets/img/projects/' . esc($project['image']) . '" style="height:40px">' : 'None') . '</div>';
+            array_splice($base, 2, 0, [['type' => 'html', 'html' => $preview]]);
+            // attach existing images picker
+            $opts = [];
+            foreach ($projImages as $img) {
+                $val = $img['filename'];
+                $label = $img['type'] . '/' . $img['filename'];
+                $path = !empty($img['path']) ? ltrim($img['path'], '/\\') : 'assets/img/' . $img['type'] . '/' . $img['filename'];
+                $opts[$val] = ['value' => $val, 'label' => $label, 'path' => $path];
+            }
+            $base[] = ['type' => 'picker', 'name' => 'existing_image', 'label' => 'Or choose existing image', 'options' => $opts];
+            $form_action = 'manage_projects.php';
+            $hidden = ['csrf' => $csrf, 'form' => 'edit', 'id' => (int)$project['id']];
+            $fields = $base;
+            $submit_label = 'Save Changes';
+            include __DIR__ . '/partials/admin_form.php';
+            ?>
         <?php endif; ?>
 
         <p><a href="dashboard.php">Back to Dashboard</a></p>

@@ -1,6 +1,18 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+// Provide sane defaults for upload-related constants if not defined by config
+if (!defined('UPLOAD_MAX_SIZE')) {
+    // default 5 MB
+    define('UPLOAD_MAX_SIZE', 5 * 1024 * 1024);
+}
+if (!defined('UPLOAD_ALLOWED')) {
+    define('UPLOAD_ALLOWED', ['jpg','jpeg','png','gif','webp','avif']);
+}
+if (!defined('UPLOAD_DIR')) {
+    define('UPLOAD_DIR', __DIR__ . '/../assets/img/uploads/');
+}
+
 if (!function_exists('handle_image_upload')) {
 function handle_image_upload($fieldName, $targetDir = null) {
     if (!isset($_FILES[$fieldName])) {
