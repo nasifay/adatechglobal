@@ -45,3 +45,14 @@ a:hover { text-decoration: underline; }
 .admin-form-row { margin-bottom:12px }
 .admin-form-row label { display:block; font-weight:600; margin-bottom:6px }
 .admin-small { font-size:0.9em; color:#666 }
+
+/* Dashboard specific */
+.admin-stats { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:16px; margin-bottom:18px }
+.admin-stat { background:#fff; border:1px solid #e9ecef; padding:16px; border-radius:8px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.03) }
+.admin-stat .count { font-size:1.6rem; font-weight:700; color:#0d6efd }
+.admin-stat .label { font-size:0.95rem; color:#333 }
+.admin-recent { margin-top:16px }
+.admin-recent .recent-item { background:#fff;border:1px solid #e9ecef;padding:10px;border-radius:6px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center }
+.admin-card { border-radius:8px; border:1px solid #eee; box-shadow: none }
+.admin-welcome { margin-bottom:18px; padding:16px; border-radius:8px; background: linear-gradient(90deg,#0d6efd08,#0d6efd05); border:1px solid #e9ecef }
+.admin-actions { display:flex; gap:8px; flex-wrap:wrap }
