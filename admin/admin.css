@@ -1,0 +1,35 @@
+/* Admin panel custom styles */
+.admin-header { background: #fff; border-bottom: 1px solid #e9ecef; padding: 12px 0; }
+.admin-header h4 { font-weight:600; }
+.dashboard-container { padding: 18px; }
+.image-picker-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(120px,1fr)); gap:10px; }
+.image-picker-item { cursor:pointer; border:1px solid #e9ecef; padding:6px; border-radius:4px; text-align:center; background:#fafafa }
+.image-picker-item img { max-width:100%; height:80px; object-fit:cover; display:block; margin:0 auto 6px }
+.image-picker-selected { box-shadow:0 0 0 3px rgba(13,110,253,0.12); border-color:#0d6efd }
+.picker-preview { display:flex; gap:8px; align-items:center }
+.picker-preview img { height:48px; border-radius:4px }
+body { font-family: 'Open Sans', Arial, sans-serif; background: #f8f9fa; margin: 0; }
+.login-container, .dashboard-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 32px 24px; }
+/* Make main headings black for admin pages and add spacing */
+h1, h2 { color: #000; margin-top: 16px; margin-bottom: 12px; }
+
+/* Collapsible header behavior: clicking title toggles a short description */
+.collapsible { cursor: pointer; position: relative; padding-right: 18px; margin-top: 8px; }
+.collapsible::after { content: '\25BE'; position: absolute; right: 0; top: 0; font-size: 0.9em; color: #666; transition: transform .15s ease; }
+.collapsible.open::after { transform: rotate(-180deg); }
+.header-desc { display: none; color: #333; margin-top: 8px; font-size: 0.95em; }
+.header-desc.open { display: block; }
+
+/* Section header block spacing to avoid overlap with other text */
+.section-header { margin-top: 18px; margin-bottom: 18px; }
+.dashboard-container h2 { margin-top: 12px; margin-bottom: 10px; }
+input[type=text], input[type=password] { width: 100%; padding: 10px; margin: 8px 0 16px 0; border: 1px solid #ccc; border-radius: 4px; }
+button { background: #0d6efd; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; }
+button:hover { background: #0b5ed7; }
+.error { color: #d9534f; margin-bottom: 12px; }
+ul { list-style: none; padding: 0; }
+ul li { margin: 12px 0; }
+a { color: #0d6efd; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.dashboard-container ul { margin-top: 24px; }
+.dashboard-container a { font-weight: 500; }

@@ -1,0 +1,9 @@
+node_modules/
+vendor/
+bin/
+obj/
+.env
+.env.local
+*.log
+.DS_Store
+includes/config.local.php
