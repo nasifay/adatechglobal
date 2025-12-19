@@ -47,9 +47,10 @@ if (!$stored) {
     $stored_username = $cfg['username'] ?? '';
 } else {
     $stored_username = $stored['username'];
+}
 
-    $pageTitle = 'Admin User'; require_once __DIR__ . '/partials/header.php'; ?>
-<?php $pageTitle = 'Admin User'; require_once __DIR__ . '/partials/header.php'; ?>
+$pageTitle = 'Admin User';
+require_once __DIR__ . '/partials/header.php'; ?>
     <style>label{display:block;margin:8px 0}</style>
     <h2>Admin User</h2>
     <?php if ($msg): ?><div class="msg"><?php echo esc($msg); ?></div><?php endif; ?>
