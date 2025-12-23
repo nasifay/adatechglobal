@@ -172,6 +172,107 @@
       </div>
     </section><!-- End Get Started Section -->
 
+    <!-- ======= Featured Projects ======= -->
+    <section id="featured-projects" class="section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>Featured Projects</h2>
+          <p>Selected work demonstrating our embedded and software capabilities.</p>
+        </div>
+        <div class="row gy-4">
+          <?php
+          // fetch latest 3 projects if available
+          try {
+            $projStmt = $pdo->query('SELECT id,title,excerpt,image FROM projects ORDER BY id DESC LIMIT 3');
+            $projs = $projStmt->fetchAll(PDO::FETCH_ASSOC);
+          } catch (Exception $e) {
+            $projs = [];
+          }
+          if (!empty($projs)):
+            foreach ($projs as $p):
+              $img = !empty($p['image']) ? (strpos($p['image'], '/') !== false ? $p['image'] : asset('assets/img/projects/' . $p['image'])) : site_image('project_card_1');
+          ?>
+            <div class="col-lg-4">
+              <div class="news-item">
+                <img src="<?php echo esc($img); ?>" alt="<?php echo esc($p['title']); ?>" class="img-fluid" />
+                <h4 style="margin-top:8px"><?php echo esc($p['title']); ?></h4>
+                <p><?php echo esc(substr(strip_tags($p['excerpt'] ?? ''),0,140)); ?></p>
+                <a href="project-details.php?id=<?php echo urlencode($p['id']); ?>" class="btn-get-started">View</a>
+              </div>
+            </div>
+          <?php endforeach; else: ?>
+            <div class="col-12"><p>No featured projects yet.</p></div>
+          <?php endif; ?>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Testimonials ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>Testimonials</h2>
+          <p>What our clients say about us</p>
+        </div>
+        <div class="row gy-4">
+          <?php
+          try {
+            $tstmt = $pdo->query('SELECT name,role,body FROM testimonials ORDER BY id DESC LIMIT 3');
+            $tests = $tstmt->fetchAll(PDO::FETCH_ASSOC);
+          } catch (Exception $e) {
+            $tests = [];
+          }
+          if (!empty($tests)):
+            foreach ($tests as $t):
+          ?>
+            <div class="col-lg-4">
+              <div class="testimonial-item">
+                <p>&ldquo;<?php echo esc($t['body']); ?>&rdquo;</p>
+                <h5><?php echo esc($t['name']); ?></h5>
+                <small><?php echo esc($t['role'] ?? 'Client'); ?></small>
+              </div>
+            </div>
+          <?php endforeach; else: ?>
+            <div class="col-12"><p>No testimonials yet.</p></div>
+          <?php endif; ?>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Latest News ======= -->
+    <section id="latest-news" class="latest-news section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>Latest News</h2>
+          <p>Insights and updates from our team</p>
+        </div>
+        <div class="row gy-4">
+          <?php
+          try {
+            $pstmt = $pdo->query('SELECT id,title,excerpt,featured_image FROM posts WHERE status = "published" ORDER BY id DESC LIMIT 3');
+            $posts = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+          } catch (Exception $e) {
+            $posts = [];
+          }
+          if (!empty($posts)):
+            foreach ($posts as $post):
+              $pimg = !empty($post['featured_image']) ? (strpos($post['featured_image'],'/')!==false ? $post['featured_image'] : asset('assets/img/posts/'.$post['featured_image'])) : site_image('project_card_1');
+          ?>
+            <div class="col-lg-4">
+              <div class="news-item">
+                <img src="<?php echo esc($pimg); ?>" class="img-fluid" alt="<?php echo esc($post['title']); ?>">
+                <h4 style="margin-top:8px"><?php echo esc($post['title']); ?></h4>
+                <p><?php echo esc(substr(strip_tags($post['excerpt'] ?? ''),0,140)); ?></p>
+                <a href="blog-details.php?id=<?php echo urlencode($post['id']); ?>" class="btn-get-started">Read</a>
+              </div>
+            </div>
+          <?php endforeach; else: ?>
+            <div class="col-12"><p>No posts yet.</p></div>
+          <?php endif; ?>
+        </div>
+      </div>
+    </section>
+
     <!-- ======= Solutions Section ======= -->
     <section id="constructions" class="constructions">
       <div class="container" data-aos="fade-up">
